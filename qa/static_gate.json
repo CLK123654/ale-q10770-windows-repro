@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task_key": "id:10770",
   "result": "PASS",
-  "scanned_sources": 207,
+  "scanned_sources": 217,
   "violations": [],
   "environment_contract": {
     "valid": true,
