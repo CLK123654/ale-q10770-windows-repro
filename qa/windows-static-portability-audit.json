@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "task_asset_id": "sqlite_help_center_fts_locale_ranking",
+  "task_key": "id:10770",
+  "result": "PASS",
+  "actions_triggered": false,
+  "business_entry_run_locally": false,
+  "entry": "input_data/tools/run-task.mjs",
+  "review": {
+    "runtime": "Node.js20或更高兼容版本与启用FTS5的SQLite3.43或更高兼容版本",
+    "path_handling": "path.resolve、path.join和process.cwd构造输入、输出与临时路径，不依赖盘符、用户目录或POSIX分隔符",
+    "process_handling": "spawnSync以参数数组直接调用SQLite可执行文件和Node.js程序，未拼接Shell命令",
+    "encoding": "CSV、JSON、SQL和JavaScript文本显式使用UTF-8",
+    "line_endings": "CSV解析接受LF和CRLF，结构化结果不依赖固定换行",
+    "unicode_and_spaces": "Node.js路径API和SQLite参数数组支持中文与空格目录",
+    "dependency_lock": "package.json没有第三方运行依赖，SQLite版本范围与FTS5能力写入环境合同",
+    "powershell": "公开配置使用pwsh调用静态入口，不要求Bash或Shell脚本",
+    "posix_dependency": "none",
+    "shell_script_dependency": "none",
+    "container_or_wsl_dependency": "none"
+  },
+  "powershell_entry_review": "业务入口由Node.js从input_data目录启动，通过ALE_SQLITE_BIN或PATH定位SQLite；进程参数、路径、编码和退出码处理均可由原生环境提供。",
+  "conclusion": "运行时、SQLite调用、路径、编码、换行、中文空格目录与失败状态均满足原生Windows静态可移植条件。结论来自源码、依赖与入口审阅，没有触发远程运行或本地业务入口。"
+}

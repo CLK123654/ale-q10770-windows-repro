@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "task_key": "id:10770",
+  "skill": "humanizer-zh",
+  "result": "PASS",
+  "reviewed_scopes": [
+    "任务名称",
+    "任务概要",
+    "任务prompt",
+    "关键动作",
+    "评分表",
+    "环境依赖",
+    "软件步骤",
+    "输入包自然语言",
+    "Reference自然语言",
+    "关键标准答案全部单元格",
+    "任务规格全部单元格"
+  ],
+  "scores": {
+    "直接性": 10,
+    "节奏": 9,
+    "信任度": 9,
+    "真实性": 10,
+    "精炼度": 9,
+    "total": 47
+  },
+  "minimum_total": 45,
+  "notes": [
+    "开头直接交代全文索引脱节、实际影响、责任角色和下游消费者。",
+    "动作从外部内容绑定、触发器和重建自然推进到语言链、排名、同步观察与对账。",
+    "删除宣传背景、机械小标题、模糊归因、否定式排比、答案控制量和内部过程口吻。"
+  ],
+  "reviewed_artifacts_sha256": {
+    "ALE-专家数据作业表.csv": "446301b630b200562c60ddcc30ed15a5edf1f75895286b898bff8583ec841d44",
+    "reference.zip": "dd0b7c87050cfe708332a1b2c51f8e11ccc8c5c45ed4e71e3bd02965e4e6ef96",
+    "task_fields.json": "c3a9b850467a495a5bbe7489f7279a560c110a566cd3f691b670aad2a7f42c0e",
+    "任务prompt.txt": "26df51b38742d22f355b1b9d44b0f770e937e0cb1f622f31fbfc14e79ae2b292",
+    "任务名称.txt": "5d796175509ac309fbc76201a347ed88bef060fc7f7830214b789a64cc8d800a",
+    "任务概要.txt": "3216617c36fb887c2d9f7e766ddeb860dd998d472cfd3874de47e89ac62b158b",
+    "任务规格转化.xlsx": "a4d7c1df25b85382944e38126c9838252a67744263e8fe3483cb391ce07fe843",
+    "关键动作.txt": "fc09496f9b3abc9f9580e0e5a7773519cdc87a2ad3ba9779358b7d9fbce65d82",
+    "关键标准答案.xlsx": "834dfe4ed099aeea41246f5cf8a2b05f4e7e9d8e0c4758bfa7752fb0aad8eb2e",
+    "环境依赖.txt": "3428aee28f7cb531700713828cf5ae6ddcfcb66a05b8baf8f7371d9a18db0811",
+    "相关专业软件的关键步骤.txt": "5a1971a742c27e019aecf407d67e357e11c14f99c891e8da6603c8c1d2454b76",
+    "评分表.txt": "0e893d82f4a306155ac154d1412dfe4cc6930216c1f1c49ed3654f9437785c80",
+    "输入数据包.zip": "da05d67ac332876e9ea8f0f9e4a43bdda523511dd2212da0e9df97a78a27cf62"
+  },
+  "online_ai_detection_used_as_conclusion": false
+}

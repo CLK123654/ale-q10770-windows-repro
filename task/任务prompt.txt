@@ -1,0 +1,9 @@
+帮助中心使用articles保存正文，article_fts以external-content模式保存词项。最后一批文章在旧索引构建后直接写入，数据库中也缺少同步触发器，因此新发布的Passkey文章无法被站内搜索找到。
+
+input_data包含help_search.db、query_cases.csv、ranking_contract.json、starter、package.json、README和执行入口。查询案例给出语言、检索词、观察时刻、结果上限和预期文章顺序；排名合同给出tokenizer、语言链、bm25权重、活跃区间和排序规则。
+
+请在输入数据库副本上修复索引，并交付output/help_search_repaired.db、output/rebuild_help_search.sql和output/tools/audit_search.mjs。article_fts继续绑定content=articles和content_rowid=article_id，tokenizer继续使用unicode61且remove_diacritics为2。SQL创建articles_ai、articles_ad和articles_au三个触发器，更新触发器只响应title或body变化，按FTS5外部内容约定删除旧词并写入新词，随后执行rebuild与optimize。
+
+每条查询只纳入status=published且处于案例观察时刻有效区间的文章。按requested_locale展开locale_tier，在article_fts的MATCH结果上计算bm25(article_fts,8,2)，依次按locale_tier升序、pinned降序、bm25升序、published_from降序和article_id升序排列，再应用result_limit。
+
+交付output/reports/query_rankings.csv、locale_fallback.csv、index_sync_audit.csv和reconciliation_summary.json。语言层报告保留零命中层；同步报告在修复库的临时副本中观察重建、插入、更新旧词移除、更新新词加入和删除清理，探针不得进入最终修复库。对账摘要从输入数据库、查询案例、修复库和三份业务报告计算文章、索引、排名、语言链、同步与主键关系。每次执行覆盖旧交付，不得修改input_data；合同无效或索引关系未闭合时返回非零状态并清除未完成报告。

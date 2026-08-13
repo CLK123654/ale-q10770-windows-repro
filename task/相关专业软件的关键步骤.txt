@@ -1,0 +1,9 @@
+1.用SQLite打开help_search.db，查看articles、article_fts和现有触发器。
+2.读取article_fts建表SQL，确认content、content_rowid、unicode61和remove_diacritics配置。
+3.将starter/rebuild_search.sql扩展为rebuild_help_search.sql，编写三个外部内容同步触发器。
+4.复制输入库为output/help_search_repaired.db，执行rebuild、optimize和触发器SQL。
+5.从query_cases.csv读取案例，从ranking_contract.json展开requested_locale对应的locale_tier。
+6.使用FTS5的MATCH筛选词项，按案例观察时刻应用发布状态和左闭右开区间。
+7.调用bm25(article_fts,8,2)，按合同顺序排序并应用每例result_limit。
+8.在临时数据库完成探针文章的插入、标题正文更新和删除，查询相应词项计数。
+9.输出query_rankings.csv、locale_fallback.csv、index_sync_audit.csv和reconciliation_summary.json。

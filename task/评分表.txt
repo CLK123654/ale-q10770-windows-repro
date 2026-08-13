@@ -1,0 +1,97 @@
+总分100分
+
+1. 输入、SQLite执行与交付边界
+分值：14分
+标准答案或判定规则：程序从input_data读取数据库、查询案例和排名合同，调用启用FTS5的真实SQLite；修复数据库、SQL、程序和四份报告按Prompt路径交付，输入保持不变。
+关键字段或路径：input_data/help_search.db；data/query_cases.csv；rules/ranking_contract.json；output；ALE_SQLITE_BIN
+容差及来源：路径、输入文件、FTS5编译选项与交付名称无容差，来源为输入包、Prompt和SQLite编译选项。
+未满足时：缺交付、使用LIKE或内存数组替代FTS5、输入库被覆盖、SQLite未实际执行，或依赖未声明服务。
+可观察证据及定位方式：输入与交付文件树、SQLite版本和编译选项、程序调用与数据库文件。
+客观硬性标准：FTS5启用，全部交付存在，输入只读，数据库工作发生在副本。
+通过阈值：四项全部满足。
+优先级：Gate项
+所属层级：L2输入与资源准备层
+
+2. 外部内容绑定、触发器与重建
+分值：18分
+标准答案或判定规则：help_search_repaired.db可打开且integrity_check为ok；article_fts仍绑定articles与article_id并保留合同tokenizer；articles_ai、articles_ad和articles_au按FTS5外部内容约定同步增删改；SQL执行rebuild与optimize。
+关键字段或路径：help_search_repaired.db中的sqlite_master、articles和article_fts；rebuild_help_search.sql；ranking_contract.json
+容差及来源：表名、content、content_rowid、tokenizer、触发器名称和语义无容差，来源为输入库、排名合同和FTS5外部内容规则。
+未满足时：改成独立内容表、只重建不建触发器、触发器缺失或语义错误、更新保留旧词、删除残留词项，或晚写入文章仍未命中。
+可观察证据及定位方式：sqlite_master、重建SQL、修复前后MATCH结果和同步报告。
+客观硬性标准：外部内容绑定不变，三个触发器完整，rebuild与optimize执行，索引包含全部有效源文章词项。
+通过阈值：四项全部满足。
+优先级：Gate项
+所属层级：L4核心功能实现层
+
+3. 源文章与发布区间
+分值：14分
+标准答案或判定规则：修复库articles按article_id逐字段等于输入；排名只纳入published且满足published_from不晚于as_of_utc，并且published_until为空或as_of_utc早于published_until的文章；探针不留在最终库。
+关键字段或路径：输入与修复库的articles；query_cases.csv中的as_of_utc；ranking_contract.json中的active_interval；query_rankings.csv
+容差及来源：文章字段、时间边界、status和article_id无容差，来源为输入库、查询案例和排名合同。
+未满足时：源文章被改写、使用系统当前时间、区间方向错误、先limit后过滤、草稿或过期文章进入结果，或探针污染最终库。
+可观察证据及定位方式：输入与修复库的articles逻辑快照、排名行和最终库探针查询。
+客观硬性标准：源表逻辑内容不变，活跃区间按案例时刻判断，最终库无探针。
+通过阈值：三项全部满足。
+优先级：高权重项
+所属层级：L6领域计算与专业规则层
+
+4. 语言回退与加权排名
+分值：16分
+标准答案或判定规则：按ranking_contract.json展开完整语言链，locale_tier优先于pinned；同一层依次按pinned降序、bm25标题与正文权重、published_from降序和article_id升序，最后应用result_limit。
+关键字段或路径：ranking_contract.json中的locale_chains、bm25权重与ranking_order；query_cases.csv；query_rankings.csv；SQLite排名查询
+容差及来源：语言层、权重、排序方向、时间和article_id无容差；bm25浮点值按SQLite当前返回值保留，排序关系必须一致。
+未满足时：精确语言与回退层颠倒、置顶跨层、bm25方向或权重错误、平局规则缺失，或先截断后排序。
+可观察证据及定位方式：每个case_id的locale_tier、pinned、bm25_score、published_from、article_id和rank。
+客观硬性标准：全部排名来自真实MATCH，语言层和五级顺序符合合同，rank从1连续。
+通过阈值：三项全部满足。
+优先级：高权重项
+所属层级：L6领域计算与专业规则层
+
+5. 查询排名与语言层报告
+分值：10分
+标准答案或判定规则：query_rankings.csv按查询案例顺序和rank输出命中行；locale_fallback.csv按完整语言链输出每层命中数，包括零命中层；两份报告使用稳定复合主键。
+关键字段或路径：query_cases.csv；ranking_contract.json中的locale_chains；query_rankings.csv；locale_fallback.csv
+容差及来源：表头、case_id、rank、locale_tier、locale和matched_count无容差，来源为查询案例、语言链与SQLite查询结果。
+未满足时：表头或主键错误、案例缺失或重复、零命中层被删、matched_count不能从排名复算，或再次执行追加旧行。
+可观察证据及定位方式：排名按case_id与rank定位，语言层按case_id与locale_tier定位并关联。
+客观硬性标准：两份报告可解析，主键唯一，排名与语言层覆盖全部案例和完整语言链。
+通过阈值：三项全部满足。
+优先级：高权重项
+所属层级：L9跨产物一致性与可追溯层
+
+6. 索引同步观察
+分值：10分
+标准答案或判定规则：index_sync_audit.csv依次记录重建命中、插入新词、更新移除旧词、更新加入新词和删除清理；每行expected_count等于observed_count，全部操作发生在临时副本。
+关键字段或路径：index_sync_audit.csv；rebuild_help_search.sql中的三个触发器；临时数据库操作
+容差及来源：观察顺序、term、expected_count与observed_count无容差，来源为同步操作和SQLite MATCH结果。
+未满足时：行数或顺序不符、插入未入索引、更新后旧词仍在、新词未入、删除残留，或探针进入最终库。
+可观察证据及定位方式：同步报告按观察序号定位，与触发器SQL和临时副本操作关联。
+客观硬性标准：五个观察完整，全部计数相等，增删改同步正确，最终库无探针。
+通过阈值：三项全部满足。
+优先级：高权重项
+所属层级：L7交互行为与状态转换层
+
+7. 对账摘要与跨产物闭合
+分值：10分
+标准答案或判定规则：reconciliation_summary.json从输入数据库、查询案例、修复库和三份业务报告汇总文章、查询、排名、语言层、同步观察和触发器；relationships覆盖数据库完整性、外部内容绑定、源表保护、排名、语言链、同步探针和主键关系，result只在全部关系成立时为PASS。
+关键字段或路径：reconciliation_summary.json中的result、measures、relationships；help_search_repaired.db；三份CSV；输入数据库与合同
+容差及来源：计数为整数且无容差，关系值必须使用布尔类型，来源为当前数据库、合同和报告。
+未满足时：摘要预填固定统计、字段类型错误、计数不可复算、关系与数据库或报告矛盾，或result与不一致数量冲突。
+可观察证据及定位方式：摘要字段与数据库查询、查询案例和三份CSV逐项关联。
+客观硬性标准：全部统计可复算，全部关系成立，result为PASS且inconsistency_count为0。
+通过阈值：三项全部满足。
+优先级：普通项
+所属层级：L9跨产物一致性与可追溯层
+
+8. SQLite交付与失败收口
+分值：8分
+标准答案或判定规则：数据库、SQL、Node.js程序和四份报告从相对路径生成并覆盖旧交付；合同无效、SQLite未启用FTS5或索引关系未闭合时返回非零状态并清除未完成报告。
+关键字段或路径：output/help_search_repaired.db；output/rebuild_help_search.sql；output/tools/audit_search.mjs；output/reports；input_data/tools/run-task.mjs
+容差及来源：路径按Prompt核对，数据库页布局、CSV行尾和JSON版式可变；退出状态必须反映成功或失败。
+未满足时：交付缺失或改名、使用作者绝对路径、依赖POSIX命令、失败返回0，或失败后保留未完成报告。
+可观察证据及定位方式：交付文件树、源码路径与SQLite调用、进程退出状态和失败后的reports目录。
+客观硬性标准：交付完整，相对路径可用，结构化语义稳定，失败非零且无残留报告。
+通过阈值：三项全部满足。
+优先级：普通项
+所属层级：L10异常场景与失败路径层

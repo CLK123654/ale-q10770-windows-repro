@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "task_key": "id:10770",
+  "result": "PASS",
+  "workbooks": [
+    {
+      "file": "关键标准答案.xlsx",
+      "visible_sheets": 5,
+      "previews": 5,
+      "formula_errors": 0,
+      "clipped_key_cells": 0
+    },
+    {
+      "file": "任务规格转化.xlsx",
+      "visible_sheets": 1,
+      "columns": 2,
+      "previews": 1,
+      "formula_errors": 0,
+      "clipped_key_cells": 0
+    }
+  ],
+  "manual_visual_conclusion": "六张预览中的表头、路径、字段、集合、数值和长文本均可读。规格表保持两列，使用名称型任务ID，没有平台表字段或旧模板尾行。"
+}

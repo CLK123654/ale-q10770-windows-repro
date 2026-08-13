@@ -1,0 +1,5 @@
+操作系统： Windows11、macOS或主流64位Linux。
+
+主软件为启用FTS5的SQLite3.43或更高兼容版本，需支持external-content、特殊delete写法、rebuild、optimize、MATCH和bm25。Node.js20或更高兼容版本负责调用SQLite、解析合同并生成CSV和JSON，处理期间不联网。
+
+执行账号需要读取input_data中的数据库、data、rules、starter和入口，并能在同级output及系统临时目录写数据库副本与报告。当前输入规模适合普通64位CPU与常规办公内存，不使用GPU；磁盘需要容纳输入库、修复库、临时探针库和全部交付。需设置有限超时，覆盖本批搜索处理并避免异常无限等待。

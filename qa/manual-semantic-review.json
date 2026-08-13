@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "task_key": "id:10770",
+  "result": "PASS",
+  "business_goal_preserved": true,
+  "role": "搜索平台工程师",
+  "consumers": [
+    "帮助中心搜索服务",
+    "内容运营团队",
+    "本地化运营团队"
+  ],
+  "actual_inputs": [
+    {
+      "path": "input_data/help_search.db",
+      "use": "提供帮助文章、现有FTS5外部内容索引和索引脱节状态"
+    },
+    {
+      "path": "input_data/data/query_cases.csv",
+      "use": "提供语言、检索词、观察时刻、上限和预期文章顺序"
+    },
+    {
+      "path": "input_data/rules/ranking_contract.json",
+      "use": "提供tokenizer、语言链、bm25权重、发布区间和排序合同"
+    },
+    {
+      "path": "input_data/starter与tools",
+      "use": "提供待完成SQL和业务入口"
+    }
+  ],
+  "continuous_actions": [
+    "读取数据库、查询案例和排名合同",
+    "补齐三个外部内容同步触发器",
+    "重建并优化FTS5索引",
+    "按观察时刻过滤发布文章并展开语言链",
+    "执行MATCH与加权bm25排名",
+    "在临时副本观察增删改同步",
+    "生成三份CSV报告和对账摘要"
+  ],
+  "primary_software_necessity": "SQLite提供FTS5外部内容绑定、触发器、MATCH、bm25、rebuild与optimize的真实执行语义；文本扫描或内存排序不能替代索引同步和数据库排名结果。",
+  "hard_numeric_sources": [
+    {
+      "value": "13篇源文章",
+      "source": "help_search.db中的articles数据行"
+    },
+    {
+      "value": "7个查询案例",
+      "source": "query_cases.csv数据行"
+    },
+    {
+      "value": "bm25权重8和2",
+      "source": "ranking_contract.json"
+    },
+    {
+      "value": "3个同步触发器",
+      "source": "Prompt与FTS5外部内容增删改关系"
+    },
+    {
+      "value": "5个同步观察",
+      "source": "Prompt规定的重建、插入、更新旧词、新词和删除动作"
+    },
+    {
+      "value": "4份业务报告",
+      "source": "Prompt交付路径"
+    }
+  ],
+  "reference_integrity": "题目只引用随包数据库、查询案例、排名合同、starter和执行入口，FTS5术语均能由数据库建表定义和SQLite能力定位，没有来源不明的外部引文。",
+  "reasoning_chain": "Prompt从索引脱节进入触发器与重建，再进入发布区间、语言回退、FTS5排名、同步观察和跨报告对账；评分八项覆盖同一链；五页答案提供路径、字段、集合、数值和允许变体；Reference包含修复库、SQL、程序和四份报告。",
+  "prompt_delivery_score_answer_reference_closed": true,
+  "hallucination": false,
+  "fake_citation": false,
+  "broken_reasoning_chain": false,
+  "answer_leakage_in_prompt_or_score": false,
+  "static_or_online_ai_score_used_as_sole_conclusion": false
+}

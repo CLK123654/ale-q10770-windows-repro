@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "task_key": "id:10770",
+  "result": "PASS",
+  "scanned_sources": 207,
+  "violations": [],
+  "environment_contract": {
+    "valid": true,
+    "first_line": "操作系统： Windows11、macOS或主流64位Linux。"
+  },
+  "rubric_contract": {
+    "valid": true,
+    "total_score": 100,
+    "item_score_sum": 100,
+    "item_count": 8,
+    "gate_count": 2,
+    "items": [
+      {
+        "index": 1,
+        "title": "1. 输入、SQLite执行与交付边界",
+        "score": 14,
+        "missing": [],
+        "priority": "Gate项",
+        "level": "L2"
+      },
+      {
+        "index": 2,
+        "title": "2. 外部内容绑定、触发器与重建",
+        "score": 18,
+        "missing": [],
+        "priority": "Gate项",
+        "level": "L4"
+      },
+      {
+        "index": 3,
+        "title": "3. 源文章与发布区间",
+        "score": 14,
+        "missing": [],
+        "priority": "高权重项",
+        "level": "L6"
+      },
+      {
+        "index": 4,
+        "title": "4. 语言回退与加权排名",
+        "score": 16,
+        "missing": [],
+        "priority": "高权重项",
+        "level": "L6"
+      },
+      {
+        "index": 5,
+        "title": "5. 查询排名与语言层报告",
+        "score": 10,
+        "missing": [],
+        "priority": "高权重项",
+        "level": "L9"
+      },
+      {
+        "index": 6,
+        "title": "6. 索引同步观察",
+        "score": 10,
+        "missing": [],
+        "priority": "高权重项",
+        "level": "L7"
+      },
+      {
+        "index": 7,
+        "title": "7. 对账摘要与跨产物闭合",
+        "score": 10,
+        "missing": [],
+        "priority": "普通项",
+        "level": "L9"
+      },
+      {
+        "index": 8,
+        "title": "8. SQLite交付与失败收口",
+        "score": 8,
+        "missing": [],
+        "priority": "普通项",
+        "level": "L10"
+      }
+    ]
+  },
+  "task_spec": {
+    "valid": true,
+    "column_count": 2,
+    "task_asset_id": "sqlite_help_center_fts_locale_ranking",
+    "forbidden_labels": []
+  },
+  "answer_sheets": [
+    "交付物答案清单",
+    "固定字段答案",
+    "固定集合答案",
+    "固定数值答案",
+    "允许变体答案"
+  ],
+  "humanizer_score": 47,
+  "manual_semantic_review": "PASS",
+  "windows_static_portability": "PASS",
+  "actions_triggered": false,
+  "business_entry_run_locally": false,
+  "attachments_sha256": {
+    "输入数据包.zip": "da05d67ac332876e9ea8f0f9e4a43bdda523511dd2212da0e9df97a78a27cf62",
+    "reference.zip": "dd0b7c87050cfe708332a1b2c51f8e11ccc8c5c45ed4e71e3bd02965e4e6ef96",
+    "关键标准答案.xlsx": "834dfe4ed099aeea41246f5cf8a2b05f4e7e9d8e0c4758bfa7752fb0aad8eb2e",
+    "任务规格转化.xlsx": "a4d7c1df25b85382944e38126c9838252a67744263e8fe3483cb391ce07fe843"
+  },
+  "online_ai_detector_used_as_conclusion": false
+}
